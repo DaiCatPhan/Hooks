@@ -3,17 +3,31 @@ import {  useEffect, useState } from "react";
 function Content() {
 
     const [title , setTitle] = useState('')
-    console.log(title);
+    const [posts , setPosts] = useState([])
+    console.log(posts);
 
     useEffect(() => {
-        document.title = title
-    })
+       fetch('https://jsonplaceholder.typicode.com/posts')
+        .then(res => res.json())
+        .then(posts => {
+           setPosts(posts)
+        })
+    },[])
 
     return ( 
-        <input type="text" 
-            onChange={e => setTitle(e.target.value)}
-            value={title}
-        />
+        <>
+            <input type="text" 
+                onChange={e => setTitle(e.target.value)}
+                value={title}
+            />
+            <ul>
+                {
+                   posts.map(post => (
+                    <li key={post.id}>{post.title}</li>
+                   ))
+                }
+            </ul>
+        </>
      );
 }
 
