@@ -1,64 +1,56 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import './App.css';
 
-// response from API
-const courses = [
-  {
-    id: 1,
-    name : 'HTML , CSS'
-  },
-  {
-    id: 2,
-    name: 'Javasript'
-  },
-  {
-    id: 3,
-    name: 'ReactJS'
-  }
-]
+
 
 function App() {
 
-  const [checked , setChecked] = useState([])
+  const [job, setJob] = useState('')
+  const [jobs, setJobs] = useState(() => {
+    const storageJobs =JSON.parse( localStorage.getItem('jobs'))
+    return storageJobs
+  }) 
+  const inputRef = useRef()
 
-  console.log((checked));
+  console.log(job);
 
-  const handleCheck = (id) => {
-    setChecked(prev => {
-      const isChecked = checked.includes(id)
-
-      if(isChecked){
-        return checked.filter(item => item!==id)
-      }else{
-        return  [...prev,id]
-      }
-
-      
-    })
+  const handleOnChange = (e) => {
+    setJob(e.target.value)
   }
-  
+
 
   const handleSubmit = () => {
-    console.log({id : checked});
+    setJobs(prev => {
+      const newJobs = [...prev , job];
+      const jsonJobs = JSON.stringify(newJobs)
+      localStorage.setItem('jobs',jsonJobs)
+
+      return newJobs;
+    })
+    setJob('')
+    inputRef.current.focus()
   }
+
 
   
   return (
     <div className="App" style={{padding:50}}>
-      {
-        courses.map((course ) => (
-          <div key={course.id}>
-            <input 
-              type="checkbox" 
-              checked={checked.includes(course.id)}
-              onChange={() => handleCheck(course.id)}
-            /> 
-            {course.name}
-          </div>
-         ) )
-      }
+      <input 
+        type="text" 
+        value={job}
+        ref={inputRef}
+        onChange={handleOnChange}
+      />
      
-      <button onClick={handleSubmit}>Register</button>
+      <button onClick={handleSubmit}>Add</button>
+      
+      <ul>
+        {
+          jobs.map((job , index) => (
+            <li key={index}>{job}</li>
+          ))
+        }
+      </ul>
     </div>
   );
 }
