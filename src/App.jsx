@@ -11,7 +11,7 @@ function App() {
   
   return (
     <div className="App" style={{padding:50}}>
-      <button onClick={handleSubmit}> Submit</button>
+      <button onClick={handleSubmit}> Toggle</button>
       {on && <Content />}
     </div>
   );

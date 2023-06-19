@@ -1,62 +1,27 @@
-import {  useEffect, useState } from "react";
+import {   useLayoutEffect, useState } from "react";
 
-const lessons = [
-    {
-        id: 1,
-        name: 'ReactJS la gi ? Tai sao phai hoc ReactJs'
-    },
-    {
-        id: 2,
-        name: 'SPA / MPA la gi'
-    },
-    {
-        id: 3,
-        name: 'Arrow function'
-    }
-]
 
 
 function Content() {
-    const [lessonId , setLessonId] = useState(1)
-
-    useEffect(() => {
-
-        const handleComment = (e) => {
-            console.log(e.detail);
-        }
-
-        window.addEventListener(`lesson-${lessonId}` , handleComment)
-
-        return () => {
-            window.removeEventListener(`lesson-${lessonId}` , handleComment)
-        }
-    },[lessonId])
     
-    const handleClick = (id) => {
-        setLessonId(id)
+    const [count , setCount] = useState(0)
+
+    useLayoutEffect(()=> {
+        if(count > 3){
+            setCount(0)
+        }
+    },[count])
+
+    const handleRun = () => {
+        setCount(prev => prev + 1)
     }
 
     return ( 
 
 
         <>
-            <ul>
-                {
-                    lessons.map(lesson => (
-                        <li
-                            key={lesson.id}
-                            style={
-                                lessonId === lesson.id ? {
-                                    color: 'red'
-                                } : {}
-                            }
-                            onClick={() => handleClick(lesson.id)}
-                        >
-                            {lesson.name}
-                        </li>
-                    ))
-                }
-            </ul>
+            <h1>{count}</h1>
+            <button onClick={handleRun}>Run</button>
         </>
      );
 }
