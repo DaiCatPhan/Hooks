@@ -7,6 +7,7 @@ function Content() {
     // const [title , setTitle] = useState('')
     const [posts , setPosts] = useState([])
     const [type , setType] = useState('posts')
+    const [showTop , setShowTop] = useState(false)
 
     console.log(type);
 
@@ -17,6 +18,25 @@ function Content() {
            setPosts(posts)
         })
     },[type])
+
+    useEffect(() => {
+
+        const handleScroll = () => {
+            if(window.scrollY > 200) {
+                setShowTop(true)
+            }else{
+                setShowTop(false)
+            }
+
+        }
+        window.addEventListener('scroll' , handleScroll)
+
+
+        return () => {
+            window.removeEventListener('scroll' , handleScroll)
+        }
+
+    },[])
 
     return ( 
         <>
@@ -48,6 +68,20 @@ function Content() {
                    ))
                 }
             </ul>
+
+            {
+                showTop && (
+                    <button
+                        style={{
+                            position: 'fixed',
+                            right: 20,
+                            bottom: 20,
+                        }}
+                    >
+                        Top
+                    </button>
+                )
+            }
         </>
      );
 }
