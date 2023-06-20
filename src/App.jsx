@@ -1,18 +1,20 @@
-import { useState } from 'react';
-import Content from './Content'
+import {  useState } from "react";
+import Content from "./Content";
+
 
 function App() {
 
-  const [on , setOn] = useState(false)
+  const [count , setCount] = useState(0)
 
-  const handleSubmit = () => {
-    setOn(!on);
+  const handleIncrease = () => {
+      setCount(prev => prev + 1)
   }
   
   return (
     <div className="App" style={{padding:50}}>
-      <button onClick={handleSubmit}> Toggle</button>
-      {on && <Content />}
+      <Content/>
+      <h1 >{count}</h1>
+      <button onClick={handleIncrease}>Click me !</button>
     </div>
   );
 }

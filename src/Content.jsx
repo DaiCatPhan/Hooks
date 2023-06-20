@@ -1,43 +1,18 @@
-import {  useEffect, useRef, useState } from "react";
-
+import { memo } from "react";
 
 function Content() {
+    console.log('re-render');
     
-    const [count , setCount] = useState(60)
-
-    const  timerId = useRef()
-    const   prevCount = useRef()
-    const h1Ref = useRef()
     
-    useEffect(() => {
-        prevCount.current = count
-    },[count])
-
-    useEffect(() => {
-        console.log(h1Ref.current);
-    })
-    
-
-    const handleStart = () => {
-        timerId.current = setInterval(() => {
-            setCount(prev => prev - 1)
-        },1000)
-    }
-
-    const handleStop = () => {
-        clearInterval(timerId.current)
-    }
-
-    console.log(count , prevCount.current);
     return ( 
         <>
-            <h1 
-                ref={h1Ref}
-            >{count}</h1>
-            <button onClick={handleStart}>Start</button>
-            <button onClick={handleStop}>Stop</button>
+           <h2>Hello anh em F8</h2>
         </>
      );
 }
 
-export default Content;
+export default memo(Content);
+
+// memo check các props của component Content xem nó có thay đỏi hay không
+// Nếu có thay đổi thì nó render lại component Content
+// Nếu k thay đổi thì nó khong render lại Content
