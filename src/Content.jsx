@@ -1,12 +1,17 @@
-import {  useRef, useState } from "react";
+import {  useEffect, useRef, useState } from "react";
 
 
 function Content() {
     
-    let timerId = useRef()
+    const [count , setCount] = useState(60)
+
+    const  timerId = useRef()
+    const   prevCount = useRef()
     
+    useEffect(() => {
+        prevCount.current = count
+    },[count])
     
-    const [count , setCount] = useState(0)
 
     const handleStart = () => {
         timerId.current = setInterval(() => {
@@ -18,6 +23,7 @@ function Content() {
         clearInterval(timerId.current)
     }
 
+    console.log(count , prevCount.current);
     return ( 
         <>
             <h1>{count}</h1>
