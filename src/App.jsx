@@ -1,68 +1,47 @@
-import { type } from "@testing-library/user-event/dist/type";
-import { useMemo, useRef } from "react";
-import {  useState } from "react";
+import {  useReducer, useState } from "react";
 
+// useReducer(reducer , initState)
+
+// 1 Init state : 0
+// 2 Action : Up(state + 1) , Down(state - 1)
+// 3 Reducer(state , action)
+// 4 Dispatch
+
+// Init state
+const initState = 0;
+
+// Action
+const UP_ACTION = 'up'
+const DOWN_ACTION = 'down'
+
+// Reducer
+
+const reducer = (state , action ) => {
+  switch(action){
+    case UP_ACTION : 
+      return state + 1
+    case DOWN_ACTION :
+      return state -1
+    default:
+      throw new Error('Invalid action !')
+  }
+}
 
 function App() {
 
-  const [name , setName] = useState('')
-  const [price , setPrice] = useState('')
-  const [products , setProducts] = useState([])
-
-  const nameRef = useRef()
-
+  const [count , dispatch] = useReducer(reducer , initState)
   
-
-
-
-  const handleSubmit = () => {
-    setProducts([...products , {
-      name,
-      price : +price
-    }])
-
-    setName('')
-    setPrice('')
-    nameRef.current.focus()
-  }
-
-  const total = useMemo(() => {
-    const result = products.reduce((result , prod) => {
-      console.log('hi');
-      return result + prod.price
-    },0)  
-    return result 
-  } , [products])
-
   return (
     <div className="App" style={{padding:50}}>
-      <input type="text" 
-        ref={nameRef}
-        value={name}
-        placeholder="Enter name..."
-        onChange={e=>setName(e.target.value)}
-      />
+      <h1>{count}</h1>
 
-      <br />
+      <button
+        onClick={() => dispatch(DOWN_ACTION)}
+      >Down</button>
 
-      <input type="text" 
-        value={price}
-        placeholder="Enter price..."
-        onChange={e=>setPrice(e.target.value)}
-      />
-
-      <br />
-      <button onClick={handleSubmit}>Add</button>
-
-      <br />
-
-      Total: {total}
-      {
-        products.map((product , index) => (
-          <li key={index}>{product.name} - {product.price}</li>
-        ))
-      }
-
+      <button
+        onClick={() => dispatch(UP_ACTION)}
+      >Up</button>
     </div>
   );
 }
