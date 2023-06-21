@@ -1,36 +1,38 @@
-import { createContext, useState } from "react";
-import Content from "./Content";
-import './App.css'
-
-// use Context
-// Comp A -> CompB -> CompC
-
-// 1 Create content : Không gian để truyền dữ liệu
-// 2 Provider 
-// 3 Consumer
-
-
-// 1 tạo conent và sẽ bao nó qua thằng lớn nhất để có thể truyền cho tất cả thằng con 
-export const ThemeContext = createContext() 
+import { useEffect, useRef } from "react";
+import Video from "./Video";
 
 function App() {
 
-  const [theme , setTheme] =useState('dark')
+  const videoRef = useRef()
 
-  const handleTheme = () => {
-    setTheme(theme === 'dark' ? 'light': 'dark');
+  useEffect(() => {
+    console.log(videoRef.current);
+  })
+
+  const handlePlay = () => {
+    videoRef.current.play()
   }
-// 2 . truyền dữ liệu từ thằng cha đến cho tất cả thằng con bằng Provider .
-//     trong Provider có nhận thằng value nhận dữ liệu
+
+  const handlePause = () => {
+    videoRef.current.pause()
+  }
+
+  
   return (
-    <ThemeContext.Provider value={theme}>
-      <div className="App" style={{padding:50}}>
-        <button onClick={handleTheme}>Toggle theme</button>
-        <Content />
-      </div>  
-    </ThemeContext.Provider>
+    <div className="App" style={{padding:50}}>
+        <Video ref={videoRef}/>
+        <div>
+          <button onClick={handlePlay}>Play</button>
+          <button 
+            style={{marginLeft:200}}
+            onClick={handlePause}
+          >
+            Pause
+          </button>
+        </div>
+    </div>  
   );
 }
 
-export default App;
+export default (App);
 
