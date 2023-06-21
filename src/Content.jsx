@@ -1,4 +1,4 @@
-import { memo } from "react";
+import Paragraph from "./Paragraph";
 
 function Content({onIncrease}) {
     console.log('re-render');
@@ -6,13 +6,12 @@ function Content({onIncrease}) {
     
     return ( 
         <>
-           <h2>Hello anh em F8</h2>
-            <button onClick={onIncrease}>Click me !</button>
+            <Paragraph />
         </>
      );
 }
 
-export default memo(Content);
+export default (Content);
 
 // useCallback : tránh tạo ra những cái hàm mới không cần thiết trong component của bạn
 // Phải sài react memo thì mới dùng useCallback
